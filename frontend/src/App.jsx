@@ -8,6 +8,9 @@ import Catalog from './pages/Catalog'
 import About from './pages/About'
 import Contact from './pages/Contact'
 import Favorites from './pages/Favorites'
+import Checkout from './pages/Checkout'
+import Profile from './pages/Profile'
+import SupportPages from './pages/SupportPages'
 import CartSidebar from './components/CartSidebar'
 import SearchModal from './components/SearchModal'
 import './App.css'
@@ -48,8 +51,20 @@ function App() {
         return <About />
       case 'contact':
         return <Contact />
+      case 'checkout':
+        return <Checkout setCurrentPage={setCurrentPage} />
+      case 'profile':
+        return <Profile setCurrentPage={setCurrentPage} />
+      case 'support-privacy':
+        return <SupportPages page="privacy" setCurrentPage={setCurrentPage} />
+      case 'support-terms':
+        return <SupportPages page="terms" setCurrentPage={setCurrentPage} />
+      case 'support-shipping':
+        return <SupportPages page="shipping" setCurrentPage={setCurrentPage} />
+      case 'support-returns':
+        return <SupportPages page="returns" setCurrentPage={setCurrentPage} />
       default:
-        return <Home />
+        return <Home setCurrentPage={setCurrentPage} />
     }
   }
 
@@ -65,14 +80,7 @@ function App() {
             onToggleSearch={handleToggleSearch}
           />
           
-          {/* Banner Principal */}
-          <div className="w-full">
-            <img 
-              src="/img/slidemain.png" 
-              alt="Holy Street Banner" 
-              className="w-full h-auto object-cover"
-            />
-          </div>
+          {/* Banner Principal removido - Agora gerenciado pela Home.jsx */}
           
           <main>
             {renderPage()}

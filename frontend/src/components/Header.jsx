@@ -86,15 +86,20 @@ const Header = ({
             <input 
               type="text"
               placeholder="Busque por produto, coleção ou versículo..."
+              aria-label="Buscar produtos ou coleções"
               className="w-full bg-dark-secondary border border-gray-700 rounded-full py-2.5 px-6 pl-12 text-sm focus:outline-none focus:border-primary-pink focus:ring-1 focus:ring-primary-pink transition-all"
             />
-            <MagnifyingGlassIcon className="h-5 w-5 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" />
+            <MagnifyingGlassIcon className="h-5 w-5 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2" aria-hidden="true" />
           </div>
 
           {/* Actions */}
           <div className="flex items-center gap-1 md:gap-4">
-            <button className="hidden sm:flex flex-col items-center group">
-              <UserIcon className="h-6 w-6 text-gray-300 group-hover:text-primary-pink transition-colors" />
+            <button 
+              onClick={() => handleNavClick('profile')}
+              className="hidden sm:flex flex-col items-center group" 
+              aria-label="Minha Conta"
+            >
+              <UserIcon className="h-6 w-6 text-gray-300 group-hover:text-primary-pink transition-colors" aria-hidden="true" />
               <span className="text-[10px] text-gray-400 group-hover:text-white uppercase font-bold">Entrar</span>
             </button>
             

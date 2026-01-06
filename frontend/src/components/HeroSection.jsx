@@ -103,15 +103,17 @@ const HeroSection = ({ onShopNow }) => {
       <div className="absolute bottom-10 right-10 z-40 flex gap-4">
         <button
           onClick={prevSlide}
+          aria-label="Slide anterior"
           className="p-3 rounded-full bg-dark-primary/50 text-white border border-white/20 hover:bg-white hover:text-dark-primary transition-all backdrop-blur-md"
         >
-          <ChevronLeftIcon className="h-6 w-6" />
+          <ChevronLeftIcon className="h-6 w-6" aria-hidden="true" />
         </button>
         <button
           onClick={nextSlide}
+          aria-label="Próximo slide"
           className="p-3 rounded-full bg-dark-primary/50 text-white border border-white/20 hover:bg-white hover:text-dark-primary transition-all backdrop-blur-md"
         >
-          <ChevronRightIcon className="h-6 w-6" />
+          <ChevronRightIcon className="h-6 w-6" aria-hidden="true" />
         </button>
       </div>
 
@@ -121,6 +123,7 @@ const HeroSection = ({ onShopNow }) => {
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
+            aria-label={`Ir para slide ${index + 1}`}
             className={`h-1.5 transition-all duration-300 rounded-full ${
               index === currentSlide ? 'w-12 bg-primary-pink' : 'w-4 bg-white/30'
             }`}
