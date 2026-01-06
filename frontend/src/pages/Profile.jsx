@@ -8,30 +8,24 @@ import {
 } from '@heroicons/react/24/outline';
 import componentStyles from '../styles/components.module.css';
 
+import { useAuth } from '../contexts/AuthContext';
+import { useProducts } from '../contexts/ProductContext';
+import ProductCard from '../components/ProductCard';
+
 const Profile = ({ setCurrentPage }) => {
+  const { user, logout } = useAuth();
+  const { allProducts } = useProducts();
+
   const [activeTab, setActiveTab] = useState('orders');
   
   // Mock order history
-  const orders = [
-    {
-      id: "HS-9821-X",
-      date: "05 Jan 2026",
-      status: "Em Trânsito",
-      total: 129.90,
-      items: ["Camiseta Oversized Propósito"],
-      color: "text-blue-400"
-    },
-    {
-      id: "HS-9755-Y",
-      date: "28 Dez 2025",
-      status: "Entregue",
-      total: 249.90,
-      items: ["Moletom Hoodie Santo"],
-      color: "text-primary-green"
-    }
-  ];
+  const orders = user?.orders || [];
 
-  const favoritesCount = JSON.parse(localStorage.getItem('holy-street-favorites') || '[]').length;
+  // Favorites logic
+  const favoritesIds = user?.favorites || [];
+  // Ensure we compare compatible types (e.g. string vs number)
+  const favoriteProducts = allProducts ? allProducts.filter(p => favoritesIds.map(String).includes(String(p.id))) : [];
+  const favoritesCount = favoriteProducts.length; // Use the actual resolved count
 
   return (
     <div className="min-h-screen bg-dark-primary py-12 px-4">
@@ -44,8 +38,8 @@ const Profile = ({ setCurrentPage }) => {
                     <div className="w-20 h-20 bg-primary-pink/20 rounded-full flex items-center justify-center mx-auto mb-4">
                         <UserCircleIcon className="h-12 w-12 text-primary-pink" />
                     </div>
-                    <h2 className="text-white font-black uppercase text-sm">João Silva</h2>
-                    <p className="text-gray-500 text-[10px] font-bold">joao@example.com</p>
+                    <h2 className="text-white font-black uppercase text-sm">{user?.name || 'Visitante'}</h2>
+                    <p className="text-gray-500 text-[10px] font-bold">{user?.email || 'email@exemplo.com'}</p>
                 </div>
 
                 <button 
@@ -68,7 +62,15 @@ const Profile = ({ setCurrentPage }) => {
                     <ArrowRightIcon className="h-3 w-3" />
                 </button>
                 
-                <button className="w-full text-left p-4 text-red-500 font-black uppercase text-[10px] tracking-widest hover:bg-red-500/10 rounded-xl transition-all">Sair da Conta</button>
+                <button 
+                    onClick={() => {
+                        logout();
+                        setCurrentPage('home');
+                    }}
+                    className="w-full text-left p-4 text-red-500 font-black uppercase text-[10px] tracking-widest hover:bg-red-500/10 rounded-xl transition-all"
+                >
+                    Sair da Conta
+                </button>
             </aside>
 
             {/* Main Content Area */}
@@ -77,45 +79,68 @@ const Profile = ({ setCurrentPage }) => {
                     <>
                         <h2 className="text-3xl font-black text-white uppercase italic">Histórico de <span className={componentStyles.gradientText}>Pedidos</span></h2>
                         <div className="space-y-4">
-                            {orders.map((order) => (
-                                <div key={order.id} className="bg-dark-secondary p-6 rounded-3xl border border-gray-800 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-gray-700 transition-all">
-                                    <div className="flex gap-6 items-center">
-                                        <div className="w-12 h-12 bg-dark-tertiary rounded-xl flex items-center justify-center">
-                                            <ClockIcon className="h-6 w-6 text-gray-500" />
-                                        </div>
-                                        <div>
-                                            <div className="text-xs font-black text-white uppercase mb-1">{order.id}</div>
-                                            <div className="text-[10px] text-gray-500 font-bold uppercase">{order.date}</div>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex-1 border-y md:border-y-0 md:border-x border-gray-800 py-4 md:py-0 md:px-10">
-                                        <div className="text-xs font-bold text-gray-300 mb-1">{order.items.join(", ")}</div>
-                                        <div className="text-[10px] font-black uppercase text-gray-500">Total: R$ {order.total.toFixed(2)}</div>
-                                    </div>
-
-                                    <div className="text-right">
-                                        <div className={`text-[10px] font-black uppercase px-3 py-1 bg-white/5 rounded-full inline-block ${order.color}`}>
-                                            {order.status}
-                                        </div>
-                                    </div>
+                            {orders.length === 0 ? (
+                                <div className="text-center py-12 bg-dark-secondary rounded-3xl border border-gray-800">
+                                    <ShoppingBagIcon className="h-12 w-12 text-gray-600 mx-auto mb-4" />
+                                    <p className="text-gray-400 text-sm mb-4">Você ainda não fez nenhum pedido.</p>
+                                    <button 
+                                        onClick={() => setCurrentPage('catalog')}
+                                        className={componentStyles.btnPrimary}
+                                    >
+                                        Começar a Comprar
+                                    </button>
                                 </div>
-                            ))}
+                            ) : (
+                                orders.map((order) => (
+                                    <div key={order.id} className="bg-dark-secondary p-6 rounded-3xl border border-gray-800 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-gray-700 transition-all">
+                                        <div className="flex gap-6 items-center">
+                                            <div className="w-12 h-12 bg-dark-tertiary rounded-xl flex items-center justify-center">
+                                                <ClockIcon className="h-6 w-6 text-gray-500" />
+                                            </div>
+                                            <div>
+                                                <div className="text-xs font-black text-white uppercase mb-1">{order.id}</div>
+                                                <div className="text-[10px] text-gray-500 font-bold uppercase">{order.date}</div>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex-1 border-y md:border-y-0 md:border-x border-gray-800 py-4 md:py-0 md:px-10">
+                                            <div className="text-xs font-bold text-gray-300 mb-1">{order.items.join(", ")}</div>
+                                            <div className="text-[10px] font-black uppercase text-gray-500">Total: R$ {order.total.toFixed(2)}</div>
+                                        </div>
+
+                                        <div className="text-right">
+                                            <div className={`text-[10px] font-black uppercase px-3 py-1 bg-white/5 rounded-full inline-block ${order.color}`}>
+                                                {order.status}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
                         </div>
                     </>
                 )}
 
                 {activeTab === 'favorites' && (
-                   <div className="text-center py-20 space-y-6">
-                        <HeartIcon className="h-16 w-16 text-primary-pink mx-auto opacity-20" />
-                        <h2 className="text-xl font-black text-white uppercase italic">Seus itens favoritos aparecerão aqui.</h2>
-                        <button 
-                            onClick={() => setCurrentPage('catalog')}
-                            className={componentStyles.btnPrimary}
-                        >
-                            Ver Catálogo
-                        </button>
-                   </div>
+                    <div className="space-y-6">
+                        {favoritesCount === 0 ? (
+                             <div className="text-center py-20">
+                                <HeartIcon className="h-16 w-16 text-primary-pink mx-auto opacity-20 mb-6" />
+                                <h2 className="text-xl font-black text-white uppercase italic mb-4">Seus itens favoritos aparecerão aqui.</h2>
+                                <button 
+                                    onClick={() => setCurrentPage('catalog')}
+                                    className={componentStyles.btnPrimary}
+                                >
+                                    Ver Catálogo
+                                </button>
+                             </div>
+                        ) : (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {favoriteProducts.map(product => (
+                                    <ProductCard key={product.id} product={product} />
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 )}
             </main>
 

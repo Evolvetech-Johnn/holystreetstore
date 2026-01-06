@@ -11,6 +11,7 @@ import {
 import { useCart } from '../hooks/useCart';
 import styles from '../styles/layout.module.css';
 import componentStyles from '../styles/components.module.css';
+import { useAuth } from '../contexts/AuthContext';
 
 const Header = ({ 
   setCurrentPage, 
@@ -21,8 +22,14 @@ const Header = ({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const { items } = useCart();
+  const { isAuthenticated, user } = useAuth();
 
   const cartItemsCount = items.reduce((total, item) => total + item.quantity, 0);
+  
+  // Calculate favorites count
+  const favoritesCount = isAuthenticated 
+      ? (user?.favorites?.length || 0)
+      : (JSON.parse(localStorage.getItem('holy-street-favorites') || '[]').length);
 
   const handleNavClick = (page) => {
     setCurrentPage(page);
@@ -95,19 +102,26 @@ const Header = ({
           {/* Actions */}
           <div className="flex items-center gap-1 md:gap-4">
             <button 
-              onClick={() => handleNavClick('profile')}
+              onClick={() => handleNavClick(isAuthenticated ? 'profile' : 'login')}
               className="hidden sm:flex flex-col items-center group" 
-              aria-label="Minha Conta"
+              aria-label={isAuthenticated ? "Minha Conta" : "Entrar"}
             >
-              <UserIcon className="h-6 w-6 text-gray-300 group-hover:text-primary-pink transition-colors" aria-hidden="true" />
-              <span className="text-[10px] text-gray-400 group-hover:text-white uppercase font-bold">Entrar</span>
+              <UserIcon className={`h-6 w-6 group-hover:text-primary-pink transition-colors ${isAuthenticated ? 'text-primary-pink' : 'text-gray-300'}`} aria-hidden="true" />
+              <span className="text-[10px] text-gray-400 group-hover:text-white uppercase font-bold">{isAuthenticated ? 'Conta' : 'Entrar'}</span>
             </button>
             
             <button 
               onClick={onToggleFavorites}
-              className="flex flex-col items-center group p-1"
+              className="flex flex-col items-center group p-1 relative"
             >
-              <HeartIcon className="h-6 w-6 text-gray-300 group-hover:text-primary-pink transition-colors" />
+              <div className="relative">
+                <HeartIcon className="h-6 w-6 text-gray-300 group-hover:text-primary-pink transition-colors" />
+                {favoritesCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-primary-pink text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center animate-bounce">
+                    {favoritesCount}
+                  </span>
+                )}
+              </div>
               <span className="hidden sm:block text-[10px] text-gray-400 group-hover:text-white uppercase font-bold">Favoritos</span>
             </button>
 

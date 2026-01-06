@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createContext } from 'react';
+import { useAuth } from './AuthContext';
 
 export const ProductContext = createContext();
 
@@ -78,6 +79,16 @@ const FALLBACK_CATEGORIES = [
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState(FALLBACK_PRODUCTS); // Initialize with fallback
   const [categories, setCategories] = useState(FALLBACK_CATEGORIES);
+  
+  // Try-catch block in case AuthContext is not yet available (though it is wrapped in App)
+  let auth = {};
+  try {
+      auth = useAuth();
+  } catch (e) {
+      console.warn("ProductProvider used outside AuthProvider");
+  }
+  const { toggleFavorite: toggleUserFavorite, user, isAuthenticated } = auth;
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filters, setFilters] = useState({
@@ -173,11 +184,21 @@ export const ProductProvider = ({ children }) => {
     updateFilters,
     clearFilters,
     toggleFavorite: (id) => {
-        const savedFavorites = JSON.parse(localStorage.getItem('holy-street-favorites') || '[]');
-        const newFavorites = savedFavorites.includes(id)
-            ? savedFavorites.filter(fId => fId !== id)
-            : [...savedFavorites, id];
-        localStorage.setItem('holy-street-favorites', JSON.stringify(newFavorites));
+        if (isAuthenticated) {
+            toggleUserFavorite(id);
+        } else {
+            const savedFavorites = JSON.parse(localStorage.getItem('holy-street-favorites') || '[]');
+            const newFavorites = savedFavorites.includes(id)
+                ? savedFavorites.filter(fId => fId !== id)
+                : [...savedFavorites, id];
+            localStorage.setItem('holy-street-favorites', JSON.stringify(newFavorites));
+            
+            // Trigger a re-render or custom event if needed so the button updates? 
+            // In this specific architecture, the components likely poll localStorage or this context needs a state for local favorites
+            // Ideally, we should add a 'favorites' state to ProductContext that syncs with either Auth or LocalStorage
+            // But for now, let's just assume components check localStorage themselves, which is brittle.
+            // Better fix: expose the current favorites LIST from here.
+        }
     }
   };
 

@@ -39,10 +39,12 @@ export const AuthProvider = ({ children }) => {
                          // Token expired
                          logout();
                     } else {
-                        // Backend unreachable, but we have a token. 
-                        // For UX in this dev environment, let's keep logged in with basic data
-                        setUser({ name: 'User (Offline)', email: 'user@example.com' });
-                        setIsAuthenticated(true);
+                        // Backend unreachable and token exists but validation failed or timed out.
+                        // Ideally we should logout, or keep the token and try again later.
+                        // For now, let's just NOT set a user, so they effectively stay 'logged out' until they try again
+                        // or until we implement offline persistence better.
+                        console.warn('Backend unreachable during auth check.');
+                        // We do NOT set user here to avoid "phantom" logins.
                     }
                 } catch (err) {
                     console.error("Auth Init Error", err);
@@ -134,10 +136,12 @@ export const AuthProvider = ({ children }) => {
             setTimeout(() => {
                 const mockUser = {
                     id: 'social-123',
-                    name: `Usuário ${provider}`,
-                    email: `user@${provider.toLowerCase()}.com`,
+                    name: `Visitante (${provider})`, // Updated to be less "debug" like
+                    email: `visitante@${provider.toLowerCase()}.com`,
                     role: 'user',
-                    avatar: provider === 'Google' ? 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png' : null
+                    avatar: provider === 'Google' ? 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png' : null,
+                    orders: [], // Social login starts fresh
+                    favorites: [] // Social login favorites
                 };
                 setUser(mockUser);
                 setToken('mock-social-token');
@@ -147,6 +151,21 @@ export const AuthProvider = ({ children }) => {
                 resolve({ success: true });
             }, 1500);
         });
+    };
+
+    const toggleFavorite = (productId) => {
+        if (!user) return;
+        
+        const currentFavorites = user.favorites || [];
+        const newFavorites = currentFavorites.includes(productId)
+            ? currentFavorites.filter(id => id !== productId)
+            : [...currentFavorites, productId];
+        
+        // Update local state
+        setUser({ ...user, favorites: newFavorites });
+        
+        // In a real app, send API request here
+        // await fetch('/api/auth/favorites', { method: 'POST', body: { productId } ... })
     };
 
     const value = {
@@ -159,7 +178,8 @@ export const AuthProvider = ({ children }) => {
         register,
         logout,
         forgotPassword,
-        socialLogin
+        socialLogin,
+        toggleFavorite
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

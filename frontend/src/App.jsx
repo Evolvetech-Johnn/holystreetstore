@@ -76,8 +76,8 @@ function App() {
   }
 
   return (
-    <ProductProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <ProductProvider>
         <CartProvider>
           <div className="App">
           <Header 
@@ -108,8 +108,8 @@ function App() {
           />
         </div>
         </CartProvider>
-      </AuthProvider>
-    </ProductProvider>
+      </ProductProvider>
+    </AuthProvider>
   )
 }
 

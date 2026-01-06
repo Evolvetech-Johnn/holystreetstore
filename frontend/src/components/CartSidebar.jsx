@@ -145,12 +145,12 @@ const CartSidebar = () => {
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-gray-600">Subtotal:</span>
-                <span>{formatPrice(getSubtotal())}</span>
+                <span className="text-gray-900 text-right">{formatPrice(getSubtotal())}</span>
               </div>
               {getTotalDiscount() > 0 && (
                 <div className="flex justify-between text-green-600">
                   <span>Desconto:</span>
-                  <span>-{formatPrice(getTotalDiscount())}</span>
+                  <span className="text-right">-{formatPrice(getTotalDiscount())}</span>
                 </div>
               )}
               <div className="flex justify-between">
@@ -160,7 +160,7 @@ const CartSidebar = () => {
             </div>
             
             {/* Total final */}
-            <div className="flex justify-between items-center text-lg font-bold border-t pt-2">
+            <div className="flex justify-between items-center text-lg font-bold border-t pt-2 text-gray-900">
               <span>Total:</span>
               <span>{formatPrice(getFinalTotal())}</span>
             </div>
