@@ -9,7 +9,7 @@ import {
 import componentStyles from '../styles/components.module.css';
 
 import { useAuth } from '../contexts/AuthContext';
-import { useProducts } from '../contexts/ProductContext';
+import { useProducts } from '../hooks/useProducts';
 import ProductCard from '../components/ProductCard';
 
 const Profile = ({ setCurrentPage }) => {

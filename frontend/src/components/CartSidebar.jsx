@@ -34,7 +34,7 @@ const CartSidebar = () => {
       />
       
       {/* Sidebar */}
-      <div className={`fixed right-0 top-0 h-full w-full max-w-md bg-white z-50 shadow-2xl transform transition-all duration-300 ease-in-out ${
+      <div className={`fixed right-0 top-0 h-full w-full max-w-md bg-white z-50 shadow-2xl transform transition-all duration-300 ease-in-out flex flex-col ${
         isOpen ? 'translate-x-0' : 'translate-x-full'
       }`}>
         {/* Header */}
