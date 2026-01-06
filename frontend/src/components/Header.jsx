@@ -57,7 +57,7 @@ const Header = ({
     <header className="bg-dark-primary text-white shadow-holy sticky top-0 z-50">
       {/* Top Banner (Netshoes style) */}
       <div className="bg-primary-pink text-white text-[10px] md:text-xs py-1.5 text-center font-bold tracking-widest uppercase">
-        Frete Grátis em compras acima de R$ 299 • Ganhe um Holy Drop exclusivo
+        Em compras acima de R$ 299 Ganhe um Holy Drop exclusivo
       </div>
 
       <div className={`${styles.container} py-4`}>
