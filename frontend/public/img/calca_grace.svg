@@ -1,0 +1,39 @@
+<svg width="300" height="400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="400" fill="#f8f9fa"/>
+  
+  <!-- Pants shape -->
+  <path d="M120 50 Q120 40 130 40 L170 40 Q180 40 180 50 L180 80 Q185 80 185 90 L185 200 Q190 200 190 210 L190 380 Q190 390 180 390 L160 390 Q150 390 150 380 L150 210 Q145 210 145 200 L145 90 Q120 90 120 50" fill="#2c3e50"/>
+  <path d="M180 80 Q185 80 185 90 L185 200 Q190 200 190 210 L190 380 Q190 390 180 390 L200 390 Q210 390 210 380 L210 210 Q215 210 215 200 L215 90 Q180 90 180 80" fill="#2c3e50"/>
+  
+  <!-- Left leg -->
+  <path d="M85 200 Q80 200 80 210 L80 380 Q80 390 90 390 L110 390 Q120 390 120 380 L120 210 Q115 210 115 200 L115 90 Q120 90 120 80 L120 50 Q115 50 115 60 L85 60 Q80 60 80 70 L80 90 Q85 90 85 200" fill="#2c3e50"/>
+  
+  <!-- Grace text on thigh -->
+  <rect x="130" y="120" width="50" height="20" rx="3" fill="#e67e22"/>
+  <text x="155" y="133" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold">GRACE</text>
+  
+  <!-- Cross on pocket -->
+  <line x1="140" y1="160" x2="140" y2="175" stroke="#f39c12" stroke-width="2"/>
+  <line x1="133" y1="167" x2="147" y2="167" stroke="#f39c12" stroke-width="2"/>
+  
+  <!-- Waistband -->
+  <rect x="120" y="45" width="60" height="8" fill="#34495e"/>
+  <circle cx="135" cy="49" r="2" fill="#95a5a6"/>
+  <circle cx="165" cy="49" r="2" fill="#95a5a6"/>
+  
+  <!-- Pockets -->
+  <path d="M125 80 Q125 75 130 75 L145 75 Q150 75 150 80 L150 100 Q150 105 145 105 L130 105 Q125 105 125 100 Z" fill="#34495e"/>
+  <path d="M150 80 Q150 75 155 75 L170 75 Q175 75 175 80 L175 100 Q175 105 170 105 L155 105 Q150 105 150 100 Z" fill="#34495e"/>
+  
+  <!-- Seams -->
+  <line x1="125" y1="50" x2="125" y2="380" stroke="#1a252f" stroke-width="1" opacity="0.5"/>
+  <line x1="175" y1="50" x2="175" y2="380" stroke="#1a252f" stroke-width="1" opacity="0.5"/>
+  
+  <!-- Verse reference -->
+  <text x="155" y="350" text-anchor="middle" fill="#7f8c8d" font-family="Arial, sans-serif" font-size="8">Efésios 2:8</text>
+  
+  <!-- Brand tag -->
+  <rect x="20" y="20" width="80" height="25" rx="5" fill="#e67e22"/>
+  <text x="60" y="37" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold">GRACE</text>
+</svg>

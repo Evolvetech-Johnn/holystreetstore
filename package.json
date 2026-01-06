@@ -1,0 +1,14 @@
+{
+  "name": "holystreetstore-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "frontend:dev": "npm run dev --prefix frontend",
+    "backend:dev": "npm run start --prefix backend",
+    "dev": "concurrently \"npm run frontend:dev\" \"npm run backend:dev\"",
+    "install:all": "npm install --prefix frontend && npm install --prefix backend"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

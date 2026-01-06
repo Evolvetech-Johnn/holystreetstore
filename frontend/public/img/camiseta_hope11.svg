@@ -1,0 +1,38 @@
+<svg width="300" height="350" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="300" height="350" fill="#f8f9fa"/>
+  
+  <!-- T-shirt shape -->
+  <path d="M80 80 Q80 70 90 70 L120 70 Q130 60 130 50 Q130 40 140 40 L160 40 Q170 40 170 50 L170 60 Q170 70 180 70 L210 70 Q220 70 220 80 L220 120 Q210 120 210 130 L210 280 Q210 290 200 290 L100 290 Q90 290 90 280 L90 130 Q80 130 80 120 Z" fill="#1a252f" stroke="#2c3e50" stroke-width="2"/>
+  
+  <!-- Hope 11 design -->
+  <text x="150" y="140" text-anchor="middle" fill="#f39c12" font-family="Arial, sans-serif" font-size="24" font-weight="bold">HOPE</text>
+  <text x="150" y="170" text-anchor="middle" fill="#e74c3c" font-family="Arial, sans-serif" font-size="36" font-weight="bold">11</text>
+  
+  <!-- Cross integrated with 11 -->
+  <line x1="165" y1="150" x2="165" y2="180" stroke="#ecf0f1" stroke-width="3"/>
+  <line x1="155" y1="165" x2="175" y2="165" stroke="#ecf0f1" stroke-width="3"/>
+  
+  <!-- Stars around -->
+  <polygon points="120,120 122,126 128,126 123,130 125,136 120,132 115,136 117,130 112,126 118,126" fill="#f39c12"/>
+  <polygon points="180,120 182,126 188,126 183,130 185,136 180,132 175,136 177,130 172,126 178,126" fill="#f39c12"/>
+  
+  <!-- Inspirational elements -->
+  <rect x="110" y="200" width="80" height="20" rx="10" fill="#3498db" opacity="0.8"/>
+  <text x="150" y="213" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold">NEVER GIVE UP</text>
+  
+  <!-- Number details -->
+  <circle cx="135" cy="165" r="3" fill="#27ae60"/>
+  <circle cx="165" cy="165" r="3" fill="#27ae60"/>
+  
+  <!-- Verse reference -->
+  <text x="150" y="250" text-anchor="middle" fill="#95a5a6" font-family="Arial, sans-serif" font-size="10">Romanos 15:13</text>
+  
+  <!-- Limited edition -->
+  <rect x="200" y="250" width="60" height="15" rx="2" fill="#e74c3c"/>
+  <text x="230" y="260" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="8" font-weight="bold">LIMITED</text>
+  
+  <!-- Brand tag -->
+  <rect x="20" y="20" width="80" height="25" rx="5" fill="#f39c12"/>
+  <text x="60" y="37" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold">HOPE 11</text>
+</svg>
