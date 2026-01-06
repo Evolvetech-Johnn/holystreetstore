@@ -33,7 +33,12 @@ export const AuthProvider = ({ children }) => {
 
                     if (res && res.ok) {
                         const data = await res.json();
-                        setUser(data.data);
+                        const userData = data.data;
+                        const savedFavorites = JSON.parse(localStorage.getItem(`favorites_user_${userData.id}`) || '[]');
+                        // Merge backend favorites (if any) with local persistent favorites
+                        userData.favorites = [...new Set([...(userData.favorites || []), ...savedFavorites])];
+                        
+                        setUser(userData);
                         setIsAuthenticated(true);
                     } else if (res && res.status === 401) {
                          // Token expired
@@ -143,6 +148,11 @@ export const AuthProvider = ({ children }) => {
                     orders: [], // Social login starts fresh
                     favorites: [] // Social login favorites
                 };
+                
+                // Load favorites for this mock user if they exist
+                const savedFavorites = JSON.parse(localStorage.getItem(`favorites_user_${mockUser.id}`) || '[]');
+                mockUser.favorites = savedFavorites;
+
                 setUser(mockUser);
                 setToken('mock-social-token');
                 setIsAuthenticated(true);
@@ -164,6 +174,11 @@ export const AuthProvider = ({ children }) => {
         // Update local state
         setUser({ ...user, favorites: newFavorites });
         
+        // Persist to local storage for this user
+        if (user.id) {
+            localStorage.setItem(`favorites_user_${user.id}`, JSON.stringify(newFavorites));
+        }
+
         // In a real app, send API request here
         // await fetch('/api/auth/favorites', { method: 'POST', body: { productId } ... })
     };
