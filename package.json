@@ -8,6 +8,9 @@
     "dev": "concurrently \"npm run frontend:dev\" \"npm run backend:dev\"",
     "install:all": "npm install --prefix frontend && npm install --prefix backend"
   },
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "devDependencies": {
     "concurrently": "^8.2.2"
   }
