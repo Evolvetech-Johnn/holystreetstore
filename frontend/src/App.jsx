@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { ProductProvider } from './contexts/ProductContext.jsx'
 import { CartProvider } from './contexts/CartContext.jsx'
+import { AuthProvider } from './contexts/AuthContext.jsx'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Home from './pages/Home'
@@ -10,6 +11,8 @@ import Contact from './pages/Contact'
 import Favorites from './pages/Favorites'
 import Checkout from './pages/Checkout'
 import Profile from './pages/Profile'
+import Login from './pages/Login'
+import Register from './pages/Register'
 import SupportPages from './pages/SupportPages'
 import CartSidebar from './components/CartSidebar'
 import SearchModal from './components/SearchModal'
@@ -55,6 +58,10 @@ function App() {
         return <Checkout setCurrentPage={setCurrentPage} />
       case 'profile':
         return <Profile setCurrentPage={setCurrentPage} />
+      case 'login':
+        return <Login setCurrentPage={setCurrentPage} />
+      case 'register':
+        return <Register setCurrentPage={setCurrentPage} />
       case 'support-privacy':
         return <SupportPages page="privacy" setCurrentPage={setCurrentPage} />
       case 'support-terms':
@@ -70,8 +77,9 @@ function App() {
 
   return (
     <ProductProvider>
-      <CartProvider>
-        <div className="App">
+      <AuthProvider>
+        <CartProvider>
+          <div className="App">
           <Header 
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
@@ -99,7 +107,8 @@ function App() {
             onSearch={handleSearch}
           />
         </div>
-      </CartProvider>
+        </CartProvider>
+      </AuthProvider>
     </ProductProvider>
   )
 }
